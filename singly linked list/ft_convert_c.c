@@ -12,20 +12,20 @@
 
 #include "libftprintf.h"
 
-void	ft_convert_c(t_format *fmt, t_holder *h)
+void	ft_convert_c(t_format *fmt, t_fwc *ctl)
 {
 	char	ch;
 
 	ch = (wint_t)va_arg(fmt->ap, wint_t);
-	if (!h->width)
-		h->width += 1;
-	h->argument = (char *)malloc(h->width * sizeof(char));
-	if (!h->argument)
+	if (!ctl->width)
+		ctl->width += 1;
+	ctl->argument = (char *)malloc(ctl->width * sizeof(char));
+	if (!ctl->argument)
 		return ;
-	ft_memset(h->argument, SPACE, h->width);
-	if (h->left_justify == 1)
-		h->argument[0] = ch;
+	ft_memset(ctl->argument, ' ', ctl->width);
+	if (ctl->left_justify == 1)
+		ctl->argument[0] = ch;
 	else
-		h->argument[h->width - 1] = ch;
-	h->len = h->width;
+		ctl->argument[ctl->width - 1] = ch;
+	ctl->len = ctl->width;
 }

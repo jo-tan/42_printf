@@ -27,20 +27,20 @@ t_format	*ft_initialize_format(const char *format, va_list ap)
 }
 
 /*Designated Initialization. For value which will filled in as 0, it can be skiiped*/
-t_holder	*ft_initialize_holder(void)
+t_fwc	*ft_initialize_output_control(void)
 {
-	t_holder	*h;
+	t_fwc	*ctl;
 
-	h = malloc(sizeof(t_holder));
-	if (!h)
+	ctl = malloc(sizeof(t_fwc));
+	if (!ctl)
 		return (NULL);
-//	h->left_justify = 0;
-	h->prefix = ft_strdup("");
-	h->padding = ' ';
-//	h->width = 0;
-	h->precision = -1;
-	h->conversion = '\0';
-	h->argument = NULL;
-//	h->len = 0;
+//	ctl->left_justify = 0;
+	ctl->prefix = ft_strdup("");
+	ctl->padding = ' ';
+//	ctl->width = 0;
+	ctl->precision = -1;
+	ctl->conversion = '\0';
+	ctl->argument = NULL;
+//	ctl->len = 0;
 	return (h);
 }

@@ -12,50 +12,50 @@
 
 #include "libftprintf.h"
 
-void	*ft_parse(t_format *fmt, t_holder *h)
+void	*ft_parse(t_format *fmt, t_fwc *ctl)
 {
-	ft_parse_flags(fmt, h);
-	ft_parse_width(fmt, h);
-	ft_parse_precision(fmt, h);
-	ft_parse_conversion(fmt, h);
+	ft_parse_flags(fmt, ctl);
+	ft_parse_width(fmt, ctl);
+	ft_parse_precision(fmt, ctl);
+	ft_parse_conversion(fmt, ctl);
 	if (!h->conversion && (ft_strchr(HOLDER_ALL, fmt->format[fmt->i])))
-		ft_parse(fmt, h);
-	return (h);
+		ft_parse(fmt, ctl);
+	return (ctl);
 }
 
-void	ft_parse_flags(t_format *fmt, t_holder *h)
+void	ft_parse_flags(t_format *fmt, t_fwc *ctl)
 {
 	char	*temp;
 
-	if (!h->prefix)
-		h->prefix = ft_strdup("");
+	if (!ctl->prefix)
+		ctl->prefix = ft_strdup("");
 	while (ft_strchr(HOLDER_ALL_FLAGS, fmt->format[fmt->i]))
 	{
 		if (fmt->format[fmt->i] == HOLDER_JUSTIFY)
-			h->left_justify = 1;
+			ctl->left_justify = 1;
 		if (ft_strchr(HOLDER_PREFIX, fmt->format[fmt->i]))
 		{
-			temp = h->prefix;
-			h->prefix = ft_appendchr(temp, fmt->format[fmt->i]);
+			temp = ctl->prefix;
+			ctl->prefix = ft_appendchr(temp, fmt->format[fmt->i]);
 			free(temp);
 		}
 		if (fmt->format[fmt->i] == HOLDER_PAD)
-			h->padding = HOLDER_PAD;
+			ctl->padding = HOLDER_PAD;
 		fmt->i++;
 	}
 }
 
-void	ft_parse_width(t_format *fmt, t_holder *h)
+void	ft_parse_width(t_format *fmt, t_fwc *ctl)
 {
 	int	width;
 
-	width = h->width;
+	width = ctl->width;
 	if (fmt->format[fmt->i] == HOLDER_STAR)
 	{
 		width = (int)va_arg(fmt->ap, int);
 		if (width < 0)
 		{
-			h->left_justify = 1;
+			ctl->left_justify = 1;
 			width *= -1;
 		}
 		fmt->i++;
@@ -69,14 +69,14 @@ void	ft_parse_width(t_format *fmt, t_holder *h)
 			fmt->i++;
 		}
 	}
-	h->width = width;
+	ctl->width = width;
 }
 
-void	ft_parse_precision(t_format *fmt, t_holder *h)
+void	ft_parse_precision(t_format *fmt, t_fwc *ctl)
 {
 	int	precision;
 
-	precision = h->precision;
+	precision = ctl->precision;
 	if (fmt->format[fmt->i] == HOLDER_PRECISION)
 	{
 		fmt->i++;
@@ -97,15 +97,15 @@ void	ft_parse_precision(t_format *fmt, t_holder *h)
 			}
 		}
 	}
-	h->precision = precision;
+	ctl->precision = precision;
 }
 
-void	ft_parse_conversion(t_format *fmt, t_holder *h)
+void	ft_parse_conversion(t_format *fmt, t_fwc *ctl)
 {
 	if (!ft_strchr(HOLDER_ALL, fmt->format[fmt->i]) \
 		&& ft_isprint(fmt->format[fmt->i]))
 	{
-		h->conversion = fmt->format[fmt->i];
+		ctl->conversion = fmt->format[fmt->i];
 		fmt->i++;
 	}
 }

@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-void	ft_convert_d_i(t_format *fmt, t_holder *h)
+void	ft_convert_d_i(t_format *fmt, t_fwc *ctl)
 {
 	int			sign;
 	long int	arg;
@@ -21,43 +21,42 @@ void	ft_convert_d_i(t_format *fmt, t_holder *h)
 	arg = (int)va_arg(fmt->ap, int);
 	if (arg < 0)
 		sign *= -1;
-	h->argument = ft_uitoa_base(sign * arg, DECIMAL_BASE);
-	if (h->precision > -1)
+	ctl->argument = ft_uitoa_base(sign * arg, DECIMAL_BASE);
+	if (ctl->precision > -1)
 	{
-		if (!h->precision && arg == 0)
+		if (!ctl->precision && arg == 0)
 		{
-			free(h->argument);
-			h->argument = ft_strdup("");
+			free(ctl->argument);
+			ctl->argument = ft_strdup("");
 		}
-		ft_fill_left_pad(&h->argument, '0', h->precision);
-		h->padding = ' ';
+		ft_fill_left_pad(&ctl->argument, '0', ctl->precision);
+		ctl->padding = ' ';
 	}
-	ft_convert_d_i_width(h, sign);
-	h->len = ft_strlen(h->argument);
+	ft_convert_d_i_width(ctl, sign);
+	ctl->len = ft_strlen(ctl->argument);
 }
 
-static void	ft_convert_d_i_width(t_holder *h, int sign)
+static void	ft_convert_d_i_width(t_fwc *ctl, int sign)
 {
-	if (h->left_justify)
+	if (ctl->left_justify)
 	{
-		ft_add_prefix(h, sign);
-		ft_fill_right_pad(&h->argument, ' ', h->width);
+		ft_add_prefix(ctl, sign);
+		ft_fill_right_pad(&ctl->argument, ' ', ctl->width);
 	}
 	else
 	{
-		if (h->padding == ' ')
+		if (ctl->padding == ' ')
 		{
-			ft_add_prefix(h, sign);
-			ft_fill_left_pad(&h->argument, h->padding, h->width);
+			ft_add_prefix(ctl, sign);
+			ft_fill_left_pad(&ctl->argument, ctl->padding, ctl->width);
 		}
-		else if (h->padding == '0')
+		else if (ctl->padding == '0')
 		{
-			if (sign < 0 || ft_strchr(h->prefix, ' ') || \
-				ft_strchr(h->prefix, '+'))
-				ft_fill_left_pad(&h->argument, h->padding, h->width - 1);
+			if (sign < 0 || ft_strchr(ctl->prefix, ' ') || ft_strchr(ctl->prefix, '+'))
+				ft_fill_left_pad(&ctl->argument, ctl->padding, ctl->width - 1);
 			else
-				ft_fill_left_pad(&h->argument, h->padding, h->width);
-			ft_add_prefix(h, sign);
+				ft_fill_left_pad(&ctl->argument, ctl->padding, ctl->width);
+			ft_add_prefix(ctl, sign);
 		}
 	}
 }

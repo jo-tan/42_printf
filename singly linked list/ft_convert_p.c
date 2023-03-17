@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-void	ft_convert_p(t_format *fmt, t_holder *h)
+void	ft_convert_p(t_format *fmt, t_fwc *ctl)
 {
 	void	*ptr;
 	char	*number;
@@ -20,29 +20,29 @@ void	ft_convert_p(t_format *fmt, t_holder *h)
 	number = NULL;
 	ptr = va_arg(fmt->ap, void *);
 	if (!ptr)
-		number = ft_nullset(h);
+		number = ft_nullset(ctl);
 	else
 		number = ft_uitoa_base((unsigned long)ptr, HEXADECIMAL_L_BASE);
-	h->argument = ft_strjoin(PTR_HEX_L_PREFIX, number);
+	ctl->argument = ft_strjoin(PTR_HEX_L_PREFIX, number);
 	free(number);
-	if (!h->left_justify)
-		ft_fill_left_pad(&h->argument, ' ', h->width);
+	if (!ctl->left_justify)
+		ft_fill_left_pad(&ctl->argument, ' ', ctl->width);
 	else
-		ft_fill_right_pad(&h->argument, ' ', h->width);
-	h->len = ft_strlen(h->argument);
+		ft_fill_right_pad(&ctl->argument, ' ', ctl->width);
+	ctl->len = ft_strlen(ctl->argument);
 }
 
-static char	*ft_nullset(t_holder *h)
+static char	*ft_nullset(t_fwc *ctl)
 {
 	char	*number;
 
-	if (h->precision > -1)
+	if (ctl->precision > -1)
 	{
-		number = (char *)malloc((h->precision + 1) * sizeof(char));
+		number = (char *)malloc((ctl->precision + 1) * sizeof(char));
 		if (!number)
 			return (NULL);
-		ft_memset(number, '0', (size_t)h->precision);
-		number[h->precision] = '\0';
+		ft_memset(number, '0', (size_t)ctl->precision);
+		number[ctl->precision] = '\0';
 	}
 	else
 		number = ft_strdup("0");

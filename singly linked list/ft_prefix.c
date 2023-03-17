@@ -52,39 +52,39 @@ void	ft_fill_right_pad(char **src, char padding, int width)
 	*src = temp;
 }
 
-void	ft_add_prefix(t_holder	*h, int sign)
+void	ft_add_prefix(t_fwc	*ctl, int sign)
 {
 	int	len;
 
-	len = (int)ft_strlen(h->argument);
-	if (h->conversion == 'd' || h->conversion == 'i')
+	len = (int)ft_strlen(ctl->argument);
+	if (ctl->conversion == 'd' || ctl->conversion == 'i')
 	{
 		len += 1;
-		if (ft_strchr(h->prefix, PLUS) && sign == 1)
-			ft_fill_left_pad(&h->argument, PLUS, len);
-		else if (ft_strchr(h->prefix, SPACE) && sign == 1)
-			ft_fill_left_pad(&h->argument, SPACE, len);
+		if (ft_strchr(ctl->prefix, PLUS) && sign == 1)
+			ft_fill_left_pad(&ctl->argument, PLUS, len);
+		else if (ft_strchr(ctl->prefix, SPACE) && sign == 1)
+			ft_fill_left_pad(&ctl->argument, SPACE, len);
 		else if (sign == -1)
-			ft_fill_left_pad(&h->argument, MINUS, len);
+			ft_fill_left_pad(&ctl->argument, MINUS, len);
 	}
-	else if (h->conversion == 'x' || h->conversion == 'X' \
-			|| h->conversion == 'o')
-		ft_prefix_ux(h);
+	else if (ctl->conversion == 'x' || ctl->conversion == 'X' \
+			|| ctl->conversion == 'o')
+		ft_prefix_ux(ctl);
 }
 
-static void	ft_prefix_ux(t_holder *h)
+static void	ft_prefix_ux(t_fwc *ctl)
 {
 	char	*temp;
 
-	temp = h->argument;
-	if (ft_strchr(h->prefix, '#'))
+	temp = ctl->argument;
+	if (ft_strchr(ctl->prefix, '#'))
 	{
-		if (h->conversion == 'x')
-			h->argument = ft_strjoin(PTR_HEX_L_PREFIX, temp);
-		if (h->conversion == 'X')
-			h->argument = ft_strjoin(HEX_U_PREFIX, temp);
-		if (h->conversion == 'o')
-			h->argument = ft_strjoin(OCT_PREFIX, temp);
+		if (ctl->conversion == 'x')
+			ctl->argument = ft_strjoin(PTR_HEX_L_PREFIX, temp);
+		if (ctl->conversion == 'X')
+			ctl->argument = ft_strjoin(HEX_U_PREFIX, temp);
+		if (ctl->conversion == 'o')
+			ctl->argument = ft_strjoin(OCT_PREFIX, temp);
 		free(temp);
 	}
 }

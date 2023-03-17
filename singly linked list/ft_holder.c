@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_holder.c                                        :+:      :+:    :+:   */
+/*   ft_fwc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jo-tan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,17 +14,17 @@
 
 void	ft_placeholder(t_format *fmt)
 {
-	t_holder	*h;
+	t_fwc	*ctl;
 
 	fmt->i++;
-	h = ft_initialize_holder();
-	ft_parse(fmt, h);
-	if (h->conversion)
+	ctl = ft_initialize_output_control();
+	ft_parse(fmt, ctl);
+	if (ctl->conversion)
 	{
-		ft_type_conversion(fmt, h);
-		fmt->len += write(1, h->argument, h->len);
-		free(h->argument);
+		ft_type_conversion(fmt, ctl);
+		fmt->len += write(1, ctl->argument, ctl->len);
+		free(ctl->argument);
 	}
-	free(h->prefix);
-	free(h);
+	free(ctl->prefix);
+	free(ctl);
 }

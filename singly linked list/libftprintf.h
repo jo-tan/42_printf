@@ -23,7 +23,7 @@ typedef struct  s_format
     struct  *next;
 } t_format;
 
-typedef struct s_state_machine
+typedef struct s_flag_width_conversion
 {
     int    left_justify;
     char    *prefix;
@@ -33,27 +33,27 @@ typedef struct s_state_machine
     char    conversion;
     char    *argument;
     size_t     len;
-} t_state;
+} t_fwc;
 
 int ft_printf(const char *format, ...);
 int ft_vprintf(const char *format, va_list ap);
-t_format    *ft_format_initializer(const char *format, va_list ap);
-t_state    *ft_machine_initializer(void);
-void    ft_set_state(t_format *fmt);
-void    *ft_parse(t_format *fmt, t_state *m);
-void    *ft_parse_flag(t_format *fmt, t_state *m);
-void    *ft_parse_width(t_format *fmt, t_state *m);
-void    *ft_parse_precision(t_format *fmt, t_state *m); 
-void	ft_parse_conversion(t_format *fmt, t_state *h);
+t_format	*ft_initialize_format(const char *format, va_list ap);
+t_fwc	*ft_initialize_output_control(void);
+void    ft_set_fwc(t_format *fmt);
+void    *ft_parse(t_format *fmt, t_fwc *m);
+void    *ft_parse_flag(t_format *fmt, t_fwc *m);
+void    *ft_parse_width(t_format *fmt, t_fwc *m);
+void    *ft_parse_precision(t_format *fmt, t_fwc *m); 
+void	ft_parse_conversion(t_format *fmt, t_fwc *h);
 void	ft_fill_left_pad(char **src, char padding, int width);
 void	ft_fill_right_pad(char **src, char padding, int width);
-void	ft_add_prefix(t_state *h, int sign);
-void	ft_type_conversion(t_format *fmt, t_state *h);
-void	ft_convert_c(t_format *fmt, t_state *h);
-void	ft_convert_s(t_format *fmt, t_state *h);
-void	ft_convert_d_i(t_format *fmt, t_state *h);
-void	ft_convert_ux(t_format *fmt, t_state *h, char *base);
-void	ft_convert_p(t_format *fmt, t_state *h);
-void	ft_convert_pct(t_state *h);
+void	ft_add_prefix(t_fwc *h, int sign);
+void	ft_type_conversion(t_format *fmt, t_fwc *h);
+void	ft_convert_c(t_format *fmt, t_fwc *h);
+void	ft_convert_s(t_format *fmt, t_fwc *h);
+void	ft_convert_d_i(t_format *fmt, t_fwc *h);
+void	ft_convert_ux(t_format *fmt, t_fwc *h, char *base);
+void	ft_convert_p(t_format *fmt, t_fwc *h);
+void	ft_convert_pct(t_fwc *h);
 
 #endif

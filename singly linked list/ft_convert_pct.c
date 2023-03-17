@@ -12,12 +12,12 @@
 
 #include "libftprintf.h"
 
-void	ft_convert_pct(t_holder *h)
+void	ft_convert_pct(t_fwc *ctl)
 {
-	h->argument = ft_appendchr("", h->conversion);
-	if (!h->left_justify)
-		ft_fill_left_pad(&h->argument, h->padding, h->width);
+	ctl->argument = ft_appendchr("", ctl->conversion);
+	if (!ctl->left_justify)
+		ft_fill_left_pad(&ctl->argument, ctl->padding, ctl->width);
 	else
-		ft_fill_right_pad(&h->argument, ' ', h->width);
-	h->len = ft_strlen(h->argument);
+		ft_fill_right_pad(&ctl->argument, ' ', ctl->width);
+	ctl->len = ft_strlen(ctl->argument);
 }
