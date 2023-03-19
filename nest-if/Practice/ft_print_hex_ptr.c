@@ -37,29 +37,34 @@ int	ft_print_hex(unsigned int nbr, const char idf)
 	return (len);
 }
 
-static void	ft_print_ptr(unsigned long ptr)
+static int	ft_print_ptr(unsigned long ptr)
 {
+	int	len;
 	if (ptr == 0)
-		ft_print_c('0');
+		return (write(1, "0", 1);
+		len = 0;
 	if (ptr >= 16)
 	{
-		ft_print_ptr(ptr / 16);
-		ft_print_ptr(ptr % 16);
+		len += ft_print_ptr(ptr / 16);
+		len += ft_print_ptr(ptr % 16);
 	}
 	else
 	{
 		if (ptr < 10)
-			ft_print_c(ptr + '0');
+			len += ft_print_c(ptr + '0');
 		else
-			ft_print_c(ptr - 10 + 'a');
+			len += ft_print_c(ptr - 10 + 'a');
 	}
+	return (len);
 }
 
 int	ft_print_p(unsigned long ptr)
 {
 	int	len;
+	
+	len = 0;
 	len += write(1, "0x", 2);
-	ft_print_ptr(ptr);
+	len += ft_print_ptr(ptr);
 
 	return (len);
 }
