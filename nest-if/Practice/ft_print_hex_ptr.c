@@ -40,9 +40,8 @@ int	ft_print_hex(unsigned int nbr, const char idf)
 static int	ft_print_ptr(unsigned long ptr)
 {
 	int	len;
-	if (ptr == 0)
-		return (write(1, "0", 1);
-		len = 0;
+
+	len = 0;
 	if (ptr >= 16)
 	{
 		len += ft_print_ptr(ptr / 16);
@@ -61,7 +60,9 @@ static int	ft_print_ptr(unsigned long ptr)
 int	ft_print_p(unsigned long ptr)
 {
 	int	len;
-	
+
+	if (ptr == 0)
+		return (ft_print_s("(nil)"));
 	len = 0;
 	len += write(1, "0x", 2);
 	len += ft_print_ptr(ptr);

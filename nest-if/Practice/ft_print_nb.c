@@ -19,28 +19,26 @@ static int	ft_count_digit(unsigned long int n)
 	return (1 + ft_count_digit(n / 10));
 }
 
-char	*ft_uitoa(int n)
+char	*ft_uitoa(unsigned int n)
 {
 	char				*res;
 	int					len;
-	unsigned long int	nbr;
 
-	nbr = n;
-	len = ft_count_digit(nbr);
+	len = ft_count_digit(n);
 	res = malloc((len + 1) * sizeof(char));
 	if (res == NULL)
 		return (NULL);
-	if (nbr == 0)
+	if (n == 0)
 	{
 		res[0] = '0';
 		res[1] = '\0';
 		return (res);
 	}
 	res[len] = '\0';
-	while (nbr)
+	while (n)
 	{
-		res[--len] = (nbr % 10) + '0';
-		nbr /= 10;
+		res[--len] = (n % 10) + '0';
+		n /= 10;
 	}
 	return (res);
 }
@@ -48,15 +46,23 @@ char	*ft_uitoa(int n)
 int	ft_print_nb(int nb)
 {
 	char	*output;
+	int		len;
 
+	len = 0;
 	output = ft_itoa(nb);
-	return (ft_print_s(output));
+	len += ft_peint_s(output);
+	free(output);
+	return (len);
 }
 
 int	ft_print_u(unsigned int nbr)
 {
 	char	*output;
+	int		len;
 
+	len = 0;
 	output = ft_uitoa(nbr);
-	return (ft_print_s(output));
+	len += ft_print_s(output);
+	free(output);
+	return (len);
 }
