@@ -6,7 +6,7 @@
 /*   By: jo-tan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 02:19:22 by jo-tan            #+#    #+#             */
-/*   Updated: 2023/03/17 02:19:54 by jo-tan           ###   ########.fr       */
+/*   Updated: 2023/03/22 17:44:47 by jo-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_print_nb(int nb)
 
 	len = 0;
 	output = ft_itoa(nb);
-	len += ft_peint_s(output);
+	len += ft_print_s(output);
 	free(output);
 	return (len);
 }
